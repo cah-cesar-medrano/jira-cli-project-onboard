@@ -17,7 +17,7 @@ setup(
     packages=["jpoc"],
     entry_points={
 
-        "console_scripts": ['jpoc = jpoc.Jpoc:main']
+        "console_scripts": ['jpoc = jpoc.bootstrap:main']
 
     },
     version=version,
