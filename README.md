@@ -6,8 +6,8 @@ A Python CLI tool for JIRA project leads or Admins to on-board users to given JI
 ## BUILT WITH
 
 1. Language
-⋅⋅* Python 3
+    * Python 3
 2. IDE
-⋅⋅* VsCode
+    * VsCode
 3. Python Distribution
-⋅⋅* Anaconda 
+    * Anaconda 
