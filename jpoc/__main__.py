@@ -1,5 +1,5 @@
 """Abstract Main"""
 
-from core import main
+from jpoc import main
 
 main()
