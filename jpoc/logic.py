@@ -3,19 +3,24 @@
 from getpass import getpass, getuser
 from jira import JIRA, JIRAError
 import os
+import time.sleep as sleep
 import pickle
 
 
 """ VIEWS """
 # introductory view that asks for password and displays name
-def program_intro():
+def program_intro(*args):
     try:
-        user_name = getuser()  # input("\tUser Name: ")
-        print("\t Hello! {}!".format(user_name))
-        password = getpass(prompt="\t Password: ")
-        server = input("\tServer Url: ")
-        jira = jira_login(User(user_name, password, server))
-        title_bar()
+        if(args.__len__ == 0):
+            user_name = getuser()
+            print("\t Hello! {}!".format(user_name))
+            password = getpass(prompt="\t Password: ")
+            server = input("\tServer Url: ")
+            jira = jira_login(User(user_name, password, server))
+            title_bar()
+        else:
+            jira = jira_login(User(args.user_name, args.password, args.server))
+            title_bar()
     except Exception as e:
         print('Login Failed\n')
         print(e)
@@ -38,19 +43,35 @@ def decision_tree():
     print("[2] Tell me about someone new.")
     print("[q] Quit.\n")
 
-    return input("What would you like to do?")
+    input("What would you like to do?")
 
 """ LOGIC FUNCTIONS """
 
+# Deletes the stored data
+def delete_pickle():
+    pass
+
+# Restores pickled user data
+def restore():
+    try:
+        with open('data.pydata', 'rb') as data:
+            return pickle.load(data)
+    except Exception as e:
+        print("Exception triggred: {}\n\n".format(e))
+        print("There is no user data stored\n\n")
+        sleep(3)
+        os.system('cls')
+
+# quits program and saves user data
 def _quit(User):
     # Function dumps the names into a file, and prints a quit message
-    with open('names.pydata', 'wb') as file_object:
+    with open('data.pydata', 'wb') as file_object:
         try:
             pickle.dump(User, file_object)
             file_object.close()
-            print("\nThanks for playing. I will remember these good friends.")
+            print("\tThanks for using JPOC")
         except Exception as e:
-            print("\nThanks for playing. I won't be able to remember these names.")
+            print("\tThanks for using JPOC, I was not able to save your data")
             print(e)
 
 # User Login
