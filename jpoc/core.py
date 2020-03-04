@@ -1,7 +1,7 @@
 """ Program Entry Point for __main__.py"""
 
 import sys
-from .jpoc import Jpoc
+from jpoc import Jpoc
 
 __version__ = "0.0.5"
 

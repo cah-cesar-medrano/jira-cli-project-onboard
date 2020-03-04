@@ -1,5 +1,5 @@
 """Abstract Main"""
 
-from .core import main
+from core import main
 
 main()
