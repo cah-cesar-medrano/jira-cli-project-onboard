@@ -1,9 +1,24 @@
 """ Functions for logic """
 
+from getpass import getpass, getuser
 from jira import JIRA, JIRAError
 import os
 import pickle
 
+
+""" VIEWS """
+# introductory view that asks for password and displays name
+def program_intro():
+    try:
+        user_name = getuser()  # input("\tUser Name: ")
+        print("\t Hello! {}!".format(user_name))
+        password = getpass(prompt="\t Password: ")
+        server = input("\tServer Url: ")
+        jira = jira_login(User(user_name, password, server))
+        title_bar()
+    except Exception as e:
+        print('Login Failed\n')
+        print(e)
 
 def title_bar():
     # Current Version
@@ -25,6 +40,8 @@ def decision_tree():
 
     return input("What would you like to do?")
 
+""" LOGIC FUNCTIONS """
+
 def _quit(User):
     # Function dumps the names into a file, and prints a quit message
     with open('names.pydata', 'wb') as file_object:
@@ -39,6 +56,9 @@ def _quit(User):
 # User Login
 def jira_login(User):
     return JIRA(basic_auth=(User.user_name, User.password), options={'server': User.server})
+
+
+""" CLASSES """
 
 # User Class
 class User(object):
