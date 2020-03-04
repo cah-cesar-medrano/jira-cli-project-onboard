@@ -11,7 +11,7 @@ import pickle
 # introductory view that asks for password and displays name
 def program_intro(*args):
     try:
-        if(args.__len__ == 0):
+        if(len(User) == 0):
             user_name = getuser()
             print("\t Hello! {}!".format(user_name))
             password = getpass(prompt="\t Password: ")
@@ -19,13 +19,14 @@ def program_intro(*args):
             jira = jira_login(User(user_name, password, server))
             title_bar()
         else:
+            print("\t Hello! {}!".format(args.user_name))
             jira = jira_login(User(args.user_name, args.password, args.server))
             title_bar()
     except Exception as e:
         print('Login Failed\n')
         print(e)
 
-def title_bar():
+def title_bar(**args):
     # Current Version
     __version__ = "0.5"
     # Clears cli between cycles and displays title bar
@@ -36,19 +37,37 @@ def title_bar():
     print("\t**********************************************")
     print("\t********  Executing JPOC version: {} ********\n".format(__version__))
 
-
 def decision_tree():
     # let users know what they can do.
-    print("\n[1] See a list of friends.")
-    print("[2] Tell me about someone new.")
+    print("\n[1] Onboard ONE Person")
     print("[q] Quit.\n")
 
-    input("What would you like to do?")
+    return input("What would you like to do?")
 
 """ LOGIC FUNCTIONS """
 
+def working_loop():
+    choice = ''
+    title_bar()
+    while choice != 'q':
+
+        coice = decision_tree()
+
+        # Response to user choice
+        title_bar()
+
+        if choice == '1':
+            onboard()
+        elif choice == 'q':
+            _quit()
+        else:
+            print("\nI didn't understand that choice.\n")
+
 # Deletes the stored data
 def delete_pickle():
+    pass
+
+def onboard():
     pass
 
 # Restores pickled user data
@@ -65,9 +84,10 @@ def restore():
 # quits program and saves user data
 def _quit(User):
     # Function dumps the names into a file, and prints a quit message
+    user = (User.user_name, User.password, User.server)
     with open('data.pydata', 'wb') as file_object:
         try:
-            pickle.dump(User, file_object)
+            pickle.dump(user, file_object)
             file_object.close()
             print("\tThanks for using JPOC")
         except Exception as e:
