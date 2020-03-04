@@ -3,25 +3,29 @@
 from getpass import getpass, getuser
 from jira import JIRA, JIRAError
 import os
-import time.sleep as sleep
+from time import sleep
 import pickle
 
 
 """ VIEWS """
 # introductory view that asks for password and displays name
 def program_intro(*args):
+
     try:
-        if(len(User) == 0):
+        if args is not None:
             user_name = getuser()
             print("\t Hello! {}!".format(user_name))
             password = getpass(prompt="\t Password: ")
             server = input("\tServer Url: ")
-            jira = jira_login(User(user_name, password, server))
+            user = User(user_name, password, server)
+            jira = jira_login(user)
             title_bar()
+            return jira, user
         else:
             print("\t Hello! {}!".format(args.user_name))
             jira = jira_login(User(args.user_name, args.password, args.server))
             title_bar()
+            return jira
     except Exception as e:
         print('Login Failed\n')
         print(e)
@@ -46,7 +50,8 @@ def decision_tree():
 
 """ LOGIC FUNCTIONS """
 
-def working_loop():
+def working_loop(*args):
+    jira, user = args
     choice = ''
     title_bar()
     while choice != 'q':
@@ -57,9 +62,9 @@ def working_loop():
         title_bar()
 
         if choice == '1':
-            onboard()
+            onboard(jira)
         elif choice == 'q':
-            _quit()
+            _quit(user)
         else:
             print("\nI didn't understand that choice.\n")
 
@@ -67,7 +72,7 @@ def working_loop():
 def delete_pickle():
     pass
 
-def onboard():
+def onboard(*args):
     pass
 
 # Restores pickled user data
